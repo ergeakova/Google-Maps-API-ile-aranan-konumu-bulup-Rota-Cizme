@@ -1,0 +1,34 @@
+﻿* {
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body {
+    background-color: #424242;
+    font-family: Tahoma;
+}
+
+
+/* Harita */
+.harita {
+    width: 100%;
+    height: 800px;
+}
+
+#map {
+    height: 800px;
+    width: 100%;
+}
+
+table td {
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+
+#ciz {
+    display:none;
+}

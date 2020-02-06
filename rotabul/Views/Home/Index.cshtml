@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="container-fluid bg-light">
+
+    <div class="kasa bg-dark">
+        <form action="/Home/index" method="post">
+            <table class="table table-striped table-dark" id="table">
+                <tr>
+                    <td>
+                        <div>
+                            <a>Adres:</a><input id="adres" class="form-control" type="text" placeholder="Default input"> <button onclick="adresara()" type="button" class="btn btn-success col-2">Konum Ara</button><button id="ciz" onclick="rotaciz()" type="button" class="btn btn-success col-2">Rota Çiz</button>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                        <div class="harita bg-light">
+
+                            <div id="map"></div>
+
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+
+    </div>
+</div>
+
+
+<script>
+   
+    var rota;
+    var map;
+    var anlikx;
+    var anliky;
+    var hedefx;
+    var hedefy;
+
+    let yolubul = function () {
+      
+        $("#ciz").show();
+        $.getJSON("https://maps.googleapis.com/maps/api/directions/json?origin=" + anlikx + "," + anliky + "&destination=" + hedefx + "," + hedefy + "&mode=driving&key=KENDİ API KEYİNİZİ YAZIN", function (data1) {
+            rota = data1.routes["0"].overview_polyline.points;
+        });
+    }  
+
+   navigator.geolocation.watchPosition(showPosition);
+    function showPosition(position) {
+        anlikx = position.coords.latitude;
+        anliky = position.coords.longitude;
+    };
+
+    function initMap() {
+            setTimeout(() => {
+                var uluru = { lat: anlikx, lng: anliky };
+                    map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 14,
+                    center: uluru,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+                var marker = new google.maps.Marker({
+                    position: uluru,
+                    map: map
+                });
+            }, 1000);
+    };//kendi konumunu bulur
+    
+
+
+    function adresara() {
+        var adres = $("#adres").val();
+        $.getJSON("https://maps.googleapis.com/maps/api/geocode/json?address=" + adres + "&key=KENDİ API KEYİNİZİ YAZIN", function (data) {
+          
+            hedefx = data.results[0].geometry.location.lat;
+            hedefy = data.results[0].geometry.location.lng;
+
+            console.log("anlık konum:" + anlikx + " " + anliky)
+            console.log("hedef konum:" + hedefx + "  " + hedefy)
+            var uluru = { lat: hedefx, lng: hedefy };
+
+
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map,
+                center: uluru
+
+            });
+
+        });
+
+        setTimeout(yolubul, 1000);
+
+    }
+
+    
+
+    function rotaciz() {
+   
+        var polyline = new google.maps.Polyline({
+            path: google.maps.geometry.encoding.decodePath(rota),
+            map: map,
+        });
+
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0; i < polyline.getPath().getLength(); i++) {
+            bounds.extend(polyline.getPath().getAt(i));
+        }
+
+        map.fitBounds(bounds);
+
+    }
+
+    
+    
+    
+
+
+
+
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry&callback=initMap&key= KENDİ API KEYİNİZİ YAZIN"></script>
+
