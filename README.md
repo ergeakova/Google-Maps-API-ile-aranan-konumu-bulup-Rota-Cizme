@@ -5,5 +5,5 @@
 
  -kullanabilmeniz için Kendinize ait bir Google Maps API KEY'e ihtiyacınız vardır.
  
- -Kendi keyinizi elde ettikten sonra >rotabul/Views/Home/Index.cshtml dosyasındaki 'KENDİ API KEYİNİZİ YAZIN' Yazan yerlere Keyinizi     Yazarak Kullanabilirsiniz.
+ -Kendi keyinizi elde ettikten sonra ~rotabul/Views/Home/Index.cshtml dosyasındaki 'KENDİ API KEYİNİZİ YAZIN' Yazan yerlere Keyinizi     Yazarak Kullanabilirsiniz.
  
